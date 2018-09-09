@@ -9,14 +9,14 @@ public class Vehicle {
     @Id
     String id;
 
-    String number_plate;
+    String numberplate;
     String type;
     int total_places;
 
     public Vehicle() { }
 
-    public Vehicle(String number_plate, String type, int total_places) {
-        this.number_plate = number_plate;
+    public Vehicle(String numberplate, String type, int total_places) {
+        this.numberplate = numberplate;
         this.type = type;
         this.total_places = total_places;
     }
@@ -26,7 +26,7 @@ public class Vehicle {
     }
 
     public String getNumberplate() {
-        return number_plate;
+        return numberplate;
     }
 
     public String getType() {
