@@ -22,7 +22,7 @@ public class VehicleService {
     }
 
     public Vehicle getVehicleByNumber_plate(String number_plate) {
-        return vehicleRepository.findVehicleByNumberplate(number_plate);
+        return vehicleRepository.findVehicleByNumber_plate(number_plate);
     }
 
     public Vehicle saveVehicle(Vehicle newVehicle) {

@@ -26,6 +26,8 @@ public class User {
 
     List<Vehicle> vehicles;
 
+    public User() { }
+
     public User(String id, int document, String password, String firstname, String lastname, String email, boolean penalized, int faults, List<Vehicle> vehicles) {
         this.id = id;
         this.document = document;
