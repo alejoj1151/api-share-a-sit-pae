@@ -8,6 +8,6 @@ import java.util.List;
 public interface VehicleRepository extends MongoRepository<Vehicle, Integer> {
     List<Vehicle> findAll();
     Vehicle findVehicleById(String id);
-    Vehicle findVehicleByNumber_plate(String number_plate);
+    Vehicle findVehicleByNumberplate(String number_plate);
 }
 

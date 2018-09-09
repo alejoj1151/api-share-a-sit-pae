@@ -25,7 +25,7 @@ public class Vehicle {
         return id;
     }
 
-    public String getNumber_plate() {
+    public String getNumberplate() {
         return number_plate;
     }
 
