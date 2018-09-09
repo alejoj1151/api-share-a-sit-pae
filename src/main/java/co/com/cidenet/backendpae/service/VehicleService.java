@@ -21,8 +21,8 @@ public class VehicleService {
         return vehicleRepository.findVehicleById(id);
     }
 
-    public Vehicle getVehicleByNumber_plate(String number_plate) {
-        return vehicleRepository.findVehicleByNumberplate(number_plate);
+    public Vehicle getVehicleByNumberplate(String numberplate) {
+        return vehicleRepository.findVehicleByNumberplate(numberplate);
     }
 
     public Vehicle saveVehicle(Vehicle newVehicle) {
