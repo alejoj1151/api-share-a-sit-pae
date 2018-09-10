@@ -2,6 +2,7 @@ package co.com.cidenet.backendpae.model;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class User {
     private boolean penalized;
     private int faults;
 
+    @DBRef
     List<Vehicle> vehicles;
 
     public User() { }

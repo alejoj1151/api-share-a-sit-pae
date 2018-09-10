@@ -1,17 +1,29 @@
 package co.com.cidenet.backendpae.service;
 
 import co.com.cidenet.backendpae.model.User;
+import co.com.cidenet.backendpae.model.Vehicle;
 import co.com.cidenet.backendpae.repository.UserRepository;
+import co.com.cidenet.backendpae.repository.VehicleRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private VehicleRepository vehicleRepository;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -32,5 +44,28 @@ public class UserService {
     public User saveUser(User newUser) {
         userRepository.save(newUser);
         return newUser;
+    }
+
+    public User updateStudent(User newUser) {
+        User user = this.getUserById(newUser.getId());
+
+        if(user != null) {
+
+            Enumeration<Vehicle> e = Collections.enumeration(newUser.getVehicles());
+            if(e != null) {
+                while(e.hasMoreElements())
+                {
+                    Vehicle vehicle = e.nextElement();
+                    vehicleRepository.save(vehicle);
+                }
+                newUser.getVehicles().addAll(user.getVehicles());
+                Query searchQuery = new Query(Criteria.where("document").is(user.getDocument()));
+                mongoTemplate.updateFirst(searchQuery, Update.update("vehicles", newUser.getVehicles()), User.class);
+            }
+
+            BeanUtils.copyProperties(newUser, user);
+        }
+
+        return user;
     }
 }

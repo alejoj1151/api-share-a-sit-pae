@@ -21,13 +21,18 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable(name = "id") String id) {
-
         return userService.getUserById(id);
     }
 
     @PostMapping
     public User saveUser(@RequestBody User newUser) {
         return userService.saveUser(newUser);
+    }
+
+    @PutMapping("/{id}")
+    public User updateStudent(@PathVariable(name = "id") String id, @RequestBody User newUser) {
+        newUser.setId(id);
+        return userService.updateStudent(newUser);
     }
 
 }
