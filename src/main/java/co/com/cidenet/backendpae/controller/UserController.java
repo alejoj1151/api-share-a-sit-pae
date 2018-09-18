@@ -24,12 +24,28 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @GetMapping(value = "/search", params = {"document"})
+    public User getUserByDocument(@RequestParam(name = "document") int document) {
+        return userService.getUserByDocument(document);
+    }
+
+    @GetMapping(value = "/search", params = {"email"})
+    public User getUserByEmail(@RequestParam(name = "email") String email) {
+        return userService.getUserByEmail(email);
+    }
+
+    @GetMapping( value = "/login",
+                 params = { "email", "password" })
+    public User getUserLogin(@RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
+        return userService.loginUser(email, password);
+    }
+
     @PostMapping
     public User saveUser(@RequestBody User newUser) {
         return userService.saveUser(newUser);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/add-vehicles/{id}")
     public User updateStudent(@PathVariable(name = "id") String id, @RequestBody User newUser) {
         newUser.setId(id);
         return userService.updateStudent(newUser);

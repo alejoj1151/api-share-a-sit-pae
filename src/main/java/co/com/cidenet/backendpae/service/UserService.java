@@ -37,13 +37,22 @@ public class UserService {
         return userRepository.findUserByDocument(document);
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
     public List<User> getUsersByName(String name) {
         return userRepository.findUsersByFirstname(name);
     }
 
     public User saveUser(User newUser) {
-        userRepository.save(newUser);
-        return newUser;
+        User user1 = getUserByDocument(newUser.getDocument());
+        User user2 = getUserByEmail(newUser.getEmail());
+        if(user1 == null && user2 == null) {
+            userRepository.save(newUser);
+            return newUser;
+        }
+        return null;
     }
 
     public User updateStudent(User newUser) {
@@ -67,5 +76,14 @@ public class UserService {
         }
 
         return user;
+    }
+
+    public User loginUser(String email, String password) {
+        User user = userRepository.finUserAndPassword(email, password);
+
+        if(user != null) {
+            return user;
+        }
+        return null;
     }
 }

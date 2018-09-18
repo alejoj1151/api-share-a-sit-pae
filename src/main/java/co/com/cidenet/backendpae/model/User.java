@@ -2,6 +2,7 @@ package co.com.cidenet.backendpae.model;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,15 +12,18 @@ import java.util.List;
 @Document(collection = "users")
 public class User {
 
-
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private int document;
+
     private String password;
 
     private String firstname;
     private String lastname;
+
+    @Indexed(unique = true)
     private String email;
 
     private boolean penalized;
@@ -58,9 +62,9 @@ public class User {
         this.document = document;
     }
 
-    public String getPassword() {
+    /*public String getPassword() {
         return password;
-    }
+    }*/
 
     public void setPassword(String password) {
         this.password = password;
