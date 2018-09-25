@@ -1,6 +1,7 @@
 package co.com.cidenet.backendpae.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "vehicles")
@@ -9,16 +10,22 @@ public class Vehicle {
     @Id
     String id;
 
+    @Indexed(unique = true)
     String numberplate;
+
     String type;
-    int total_places;
+    int totalseats;
 
     public Vehicle() { }
 
-    public Vehicle(String numberplate, String type, int total_places) {
+    public Vehicle(String numberplate, String type, int totalseats) {
         this.numberplate = numberplate;
         this.type = type;
-        this.total_places = total_places;
+        this.totalseats = totalseats;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {
@@ -33,8 +40,8 @@ public class Vehicle {
         return type;
     }
 
-    public int getTotal_places() {
-        return total_places;
+    public int getTotalseats() {
+        return totalseats;
     }
 
 
