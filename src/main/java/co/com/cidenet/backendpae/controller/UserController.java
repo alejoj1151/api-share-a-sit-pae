@@ -14,10 +14,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/all-users")
+    @GetMapping("/all")
     public List<User> getUsers() {
         return userService.getUsers();
-
     }
 
     @GetMapping("/{id}")
@@ -41,13 +40,13 @@ public class UserController {
         return userService.loginUser(email, password);
     }
 
-    @GetMapping(value = "/vehicles", params = {"document"})
-    public List<Vehicle> getVehiclesByUser(@RequestParam(name = "document") int document) {
-        return userService.getVehiclesByUser(document);
+    @GetMapping(value = "/vehicles", params = {"id"})
+    public List<Vehicle> getVehiclesByUser(@RequestParam(name = "id") String id) {
+        return userService.getVehiclesByUser(id);
     }
 
     @PostMapping
-    public User saveUser(@RequestBody User newUser) {
+    public boolean saveUser(@RequestBody User newUser) {
         return userService.saveUser(newUser);
     }
 
@@ -58,9 +57,8 @@ public class UserController {
     }
 
     @DeleteMapping( value = "/delete-vehicles",
-                    params = { "document", "numberplate" })
-    public String deleteVehicle(@RequestParam(name = "document") int document, @RequestParam(name = "numberplate") String numberplate) {
-        return userService.deleteVehicle(document, numberplate);
+                    params = { "id", "numberplate" })
+    public String deleteVehicle(@RequestParam(name = "id") String id, @RequestParam(name = "numberplate") String numberplate) {
+        return userService.deleteVehicle(id, numberplate);
     }
-
 }

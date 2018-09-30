@@ -2,38 +2,55 @@ package co.com.cidenet.backendpae.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.text.DateFormat;
 import java.util.List;
 
-@Document(collection = "seats")
-public class Seat {
+@Document(collection = "travels")
+public class Travel {
 
     @Id
-    String id;
+    private String id;
 
     @Indexed(unique = true)
-    Vehicle vehicle;
+    private Vehicle vehicle;
 
+    @DBRef
     List<User> passengers;
-    User driver;
+
+    @DBRef
+    private User driver;
 
     int available_seats;
 
-    String origen;
-    String destination;
+    private String origen;
+    private String destination;
 
-    String hour;
+    private String hour;
+    private String date;
 
-    public Seat() { }
+    public Travel() { }
 
-    public Seat(Vehicle vehicle, List<User> passengers, int available_seats, String origen, String destination, String hour) {
+    public Travel(Vehicle vehicle, int available_seats) {
+        this.vehicle = vehicle;
+        this.available_seats = available_seats;
+        this.origen = null;
+        this.destination = null;
+        this.hour = null;
+        this.date = null;
+    }
+
+    public Travel(Vehicle vehicle, List<User> passengers, User driver, int available_seats, String origen, String destination, String hour, String date) {
         this.vehicle = vehicle;
         this.passengers = passengers;
+        this.driver = driver;
         this.available_seats = available_seats;
         this.origen = origen;
         this.destination = destination;
         this.hour = hour;
+        this.date = date;
     }
 
     public String getId() {
@@ -98,5 +115,13 @@ public class Seat {
 
     public void setHour(String hour) {
         this.hour = hour;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

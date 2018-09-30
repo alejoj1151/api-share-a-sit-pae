@@ -28,6 +28,14 @@ public class Vehicle {
         this.id = id;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setNumberplate(String numberplate) {
+        this.numberplate = numberplate;
+    }
+
     public String getId() {
         return id;
     }

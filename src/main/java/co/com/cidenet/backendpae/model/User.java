@@ -16,7 +16,7 @@ public class User {
     private String id;
 
     @Indexed(unique = true)
-    private int document;
+    private long document;
 
     private String password;
 
@@ -34,7 +34,7 @@ public class User {
 
     public User() { }
 
-    public User(String id, int document, String password, String firstname, String lastname, String email, boolean penalized, int faults, List<Vehicle> vehicles) {
+    public User(String id, long document, String password, String firstname, String lastname, String email, boolean penalized, int faults, List<Vehicle> vehicles) {
         this.id = id;
         this.document = document;
         this.password = password;
@@ -54,17 +54,13 @@ public class User {
         this.id = id;
     }
 
-    public int getDocument() {
+    public long getDocument() {
         return document;
     }
 
-    public void setDocument(int document) {
+    public void setDocument(long document) {
         this.document = document;
     }
-
-    /*public String getPassword() {
-        return password;
-    }*/
 
     public void setPassword(String password) {
         this.password = password;
