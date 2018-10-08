@@ -36,6 +36,10 @@ public class Vehicle {
         this.numberplate = numberplate;
     }
 
+    public void setTotalseats(int totalseats) {
+        this.totalseats = totalseats;
+    }
+
     public String getId() {
         return id;
     }

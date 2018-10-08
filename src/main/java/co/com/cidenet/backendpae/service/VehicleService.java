@@ -40,8 +40,11 @@ public class VehicleService {
     public Vehicle saveVehicle(Vehicle newVehicle) {
         Vehicle veh = getVehicleByNumberplate(newVehicle.getNumberplate());
         if(veh == null) {
-            if(!newVehicle.getType().equalsIgnoreCase("carro") && !newVehicle.getType().equalsIgnoreCase("moto")  && !newVehicle.getType().equalsIgnoreCase("camioneta")) {
+            if(!newVehicle.getType().equalsIgnoreCase("carro") && !newVehicle.getType().equalsIgnoreCase("moto")  && !newVehicle.getType().equalsIgnoreCase("camioneta") && !newVehicle.getType().equalsIgnoreCase("campero")) {
                 newVehicle.setType("Otro");
+            }
+            if(newVehicle.getTotalseats() < 0 || newVehicle.getTotalseats() > 12) {
+                newVehicle.setTotalseats(1);
             }
             newVehicle.setNumberplate(newVehicle.getNumberplate().toUpperCase());
             vehicleRepository.save(newVehicle);

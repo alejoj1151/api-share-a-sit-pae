@@ -52,6 +52,7 @@ public class UserService {
         User user1 = getUserByDocument(newUser.getDocument());
         User user2 = getUserByEmail(newUser.getEmail());
         if(user1 == null && user2 == null) {
+            newUser.setEmail(newUser.getEmail().toLowerCase());
             userRepository.save(newUser);
             System.out.println("INSERT: user #" + newUser.getDocument() + " (" + newUser.getFirstname() + " " + newUser.getLastname() + ") was inserted");
             return true;
@@ -83,8 +84,11 @@ public class UserService {
                             vehicle.setId(vehicleService.getVehicleByNumberplate(vehicle.getNumberplate()).getId());
 
                             // update data in collection
-                            if(!vehicle.getType().equalsIgnoreCase("carro") && !vehicle.getType().equalsIgnoreCase("moto")  && !vehicle.getType().equalsIgnoreCase("camioneta")) {
+                            if(!vehicle.getType().equalsIgnoreCase("carro") && !vehicle.getType().equalsIgnoreCase("moto")  && !vehicle.getType().equalsIgnoreCase("camioneta") && !vehicle.getType().equalsIgnoreCase("campero")) {
                                 vehicle.setType("Otro");
+                            }
+                            if(vehicle.getTotalseats() < 0 || vehicle.getTotalseats() > 12) {
+                                vehicle.setTotalseats(1);
                             }
                             vehicle.setNumberplate(vehicle.getNumberplate().toUpperCase());
                             mongoTemplate.save(vehicle, "vehicles");
@@ -123,9 +127,11 @@ public class UserService {
     }
 
     public User loginUser(String email, String password) {
-        User user = userRepository.finUserAndPassword(email, password);
+
+        User user = userRepository.findUserAndPassword(email.toLowerCase(), password);
 
         if(user != null) {
+            System.out.println("LOGIN: The user with email " + email.toLowerCase() + " connected");
             return user;
         }
         return null;

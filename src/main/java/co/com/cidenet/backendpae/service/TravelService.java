@@ -43,9 +43,10 @@ public class TravelService {
         if(vehicle != null && driver != null) {
             if(userService.IsVehicleTheUser(driver, vehicle)) {
                 Travel travel = this.getTravelByVehicleNumberPlate(vehicle.getNumberplate());
-                newTravel.setId(travel.getId());
+
                 if (travel != null) {
 
+                    newTravel.setId(travel.getId());
                     newTravel.setVehicle(vehicle);
                     newTravel.setDriver(driver);
                     if (newTravel.getOrigen().equalsIgnoreCase("volador")) {
