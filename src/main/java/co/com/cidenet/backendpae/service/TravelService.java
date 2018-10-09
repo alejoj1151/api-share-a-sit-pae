@@ -273,4 +273,46 @@ public class TravelService {
         System.out.println("INFO: User not exits in the system");
         return false;
     }
+
+    public List<User> getPassengerForTravelByIdDriver(String id_driver) throws ParseException {
+        User driver = userService.getUserById(id_driver);
+        if (driver != null) {
+            if (driver.getVehicles() != null) {
+                Date date = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String today = dateFormat.format(date);
+
+                List<Travel> travels = travelRepository.findTravelByDate(today);
+
+                DateFormat hourFormat = new SimpleDateFormat("HH:mm");
+                Date horaActual = hourFormat.parse(hourFormat.format(date));
+                int diferencia = 0;
+                for (int i = 0; i < travels.size(); i++) {
+                    Date horaTravel = hourFormat.parse(travels.get(i).getHour());
+                    diferencia = (int) ((horaTravel.getTime() - horaActual.getTime()) / 1000);
+                    if (diferencia > 0) {
+                        String id_driver_list = travels.get(i).getDriver().getId();
+
+                        // comprobar si la identificación de algún conductor corresponde a la ingresada desde el front
+                        if (id_driver_list.equals(id_driver)) {
+                            List<User> list_passengers = travels.get(i).getPassengers();
+
+                            if (list_passengers != null) {
+                                System.out.println("INFO: user #" + driver.getDocument() + " (" + driver.getFirstname() + " " + driver.getLastname() + ") look for registered passengers of vehicle #" + travels.get(i).getVehicle().getNumberplate());
+                                return list_passengers;
+                            }
+                            else {
+                                System.out.println("INFO: Travel of the vehicle #" + travels.get(i).getVehicle().getNumberplate() + " not has passengers");
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            System.out.println("INFO: User not has vehicles or travel registred");
+            return null;
+        }
+        System.out.println("INFO: User not exits in the system");
+        return null;
+    }
 }

@@ -2,6 +2,7 @@ package co.com.cidenet.backendpae.controller;
 
 
 import co.com.cidenet.backendpae.model.Travel;
+import co.com.cidenet.backendpae.model.User;
 import co.com.cidenet.backendpae.service.TravelService;
 import co.com.cidenet.backendpae.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class TravelController {
             params = { "id" })
     public boolean isPassengerInTravel(@RequestParam(name = "id") String id_passenger) throws ParseException {
         return travelService.isUserRegisterInTravel(id_passenger);
+    }
+
+    @GetMapping( value = "/listpassengers",
+            params = { "id" })
+    public List<User> getPassengersForTravel(@RequestParam(name = "id") String id_driver) throws ParseException {
+        return travelService.getPassengerForTravelByIdDriver(id_driver);
     }
 
     @GetMapping( value = "/search",
