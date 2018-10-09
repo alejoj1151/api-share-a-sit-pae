@@ -25,6 +25,18 @@ public class TravelController {
         return travelService.getTravelsAvailables();
     }
 
+    @GetMapping( value = "/isdriver",
+            params = { "id" })
+    public boolean isDriverInTravel(@RequestParam(name = "id") String id_driver) throws ParseException {
+        return travelService.isUserDriverInTravel(id_driver);
+    }
+
+    @GetMapping( value = "/ispassenger",
+            params = { "id" })
+    public boolean isPassengerInTravel(@RequestParam(name = "id") String id_passenger) throws ParseException {
+        return travelService.isUserRegisterInTravel(id_passenger);
+    }
+
     @GetMapping( value = "/search",
             params = { "origen", "hourstart", "hourend" })
     public List<Travel> getTravelsFilter(@RequestParam(name = "origen") String origen, @RequestParam(name = "hourstart") String hourstart, @RequestParam(name = "hourend") String hourend) throws ParseException {

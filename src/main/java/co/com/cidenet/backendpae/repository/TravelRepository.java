@@ -16,4 +16,8 @@ public interface TravelRepository extends MongoRepository<Travel, String> {
 
     @Query("{'date':?0, 'origen':?1, 'available_seats':{'$gt':0}}")
     List<Travel> findTravelOrigen(String date, String origen);
+
+    //query para comprobar si se es conductor o pasajero de un viaje activo
+    @Query("{'date':?0}")
+    List<Travel> findIsUserTravelByDate(String date);
 }

@@ -93,6 +93,9 @@ public class TravelService {
                         System.out.println("ERROR: hour of the travel is invalid for the driver #" + driver.getDocument() + " (" + driver.getLastname() + " " + driver.getFirstname());
                     }
                 }
+                else {
+                    System.out.println("ERROR: This travel of vehiculo not exist");
+                }
             }
             else {
                 System.out.println("ERROR: This vehicle is not of this user");
@@ -196,6 +199,78 @@ public class TravelService {
             }
             System.out.println("ERROR: the seats is not avaiables in the vehicle #" + vehicle.getNumberplate());
         }
+        return false;
+    }
+
+    public boolean isUserRegisterInTravel(String id_passenger) throws ParseException {
+        User passager = userService.getUserById(id_passenger);
+        if(passager != null) {
+            Date date = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String today = dateFormat.format(date);
+
+            List<Travel> travels = travelRepository.findIsUserTravelByDate(today);
+
+            DateFormat hourFormat = new SimpleDateFormat("HH:mm");
+            Date horaActual = hourFormat.parse(hourFormat.format(date));
+            int diferencia = 0;
+            for (int i = 0; i < travels.size(); i++) {
+                Date horaTravel = hourFormat.parse(travels.get(i).getHour());
+                diferencia = (int) ((horaTravel.getTime() - horaActual.getTime()) / 1000);
+                if (diferencia > 0) {
+                    List<User> list_passengers = travels.get(i).getPassengers();
+                    if(list_passengers != null) {
+
+                        // comprobar si alguno de los objetos de la lista <user> de pasajeros corresponde al objeto pasajero ingresado desde el front
+                        for (int j = 0; j < list_passengers.size(); j++) {
+                            String user_get_list_id = list_passengers.get(j).getId();
+                            if (user_get_list_id.equals(id_passenger)) {
+                                System.out.println("INFO: user #" + passager.getDocument() + " (" + passager.getFirstname() + " " + passager.getLastname() + ") is passenger in the travel of vehicle #" + travels.get(i).getVehicle().getNumberplate());
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            System.out.println("INFO: User is not passenger of no travel");
+            return false;
+        }
+        System.out.println("INFO: User not exits in the system");
+        return false;
+    }
+
+    public boolean isUserDriverInTravel(String id_driver) throws ParseException {
+        User driver = userService.getUserById(id_driver);
+        if(driver != null) {
+
+            if(driver.getVehicles() != null) {
+                Date date = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String today = dateFormat.format(date);
+
+                List<Travel> travels = travelRepository.findIsUserTravelByDate(today);
+
+                DateFormat hourFormat = new SimpleDateFormat("HH:mm");
+                Date horaActual = hourFormat.parse(hourFormat.format(date));
+                int diferencia = 0;
+                for (int i = 0; i < travels.size(); i++) {
+                    Date horaTravel = hourFormat.parse(travels.get(i).getHour());
+                    diferencia = (int) ((horaTravel.getTime() - horaActual.getTime()) / 1000);
+                    if (diferencia > 0) {
+                        String id_driver_list = travels.get(i).getDriver().getId();
+
+                        // comprobar si la identificación de algún conductor corresponde a la ingresada desde el front
+                        if (id_driver_list.equals(id_driver)) {
+                            System.out.println("INFO: user #" + driver.getDocument() + " (" + driver.getFirstname() + " " + driver.getLastname() + ") is driver in the travel of vehicle #" + travels.get(i).getVehicle().getNumberplate());
+                            return true;
+                        }
+                    }
+                }
+            }
+            System.out.println("INFO: User not has vehicles or travel registred");
+            return false;
+        }
+        System.out.println("INFO: User not exits in the system");
         return false;
     }
 }
